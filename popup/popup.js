@@ -9,10 +9,10 @@ window.addEventListener("load", async () => {
   }
   initConfigPopup();
 
-  const aiPromptTextArea = await registerInput("aiPromptTextArea");
-  const input = await registerInput("inputTextArea");
-  await registerInput("aiSuggestionTextArea");
-  
+  const aiPromptTextArea = await initInputStorage("aiPromptTextArea");
+  const input = await initInputStorage("inputTextArea");
+  await initInputStorage("aiSuggestionTextArea");
+
   const submitButton = document.getElementById("submitButton");
   submitButton.addEventListener("click", submitButtonClick);
 
@@ -29,7 +29,7 @@ window.addEventListener("load", async () => {
   input.select();
 
   initPreviewIcon(input);
-  const aiModelSelect = document.getElementById('aiModelSelect');
+  const aiModelSelect = document.getElementById("aiModelSelect");
   await initAIModelSelect(aiModelSelect);
 });
 
@@ -38,9 +38,11 @@ async function initAIModelSelect(aiModelSelect) {
     aiModelSelect.removeChild(aiModelSelect.firstChild);
   }
   const userConfigAiModel = (await getAiModelName()) ?? defaultAIModelName;
-  const models = [userConfigAiModel].concat(aiModelList.filter(x => x !== userConfigAiModel));
-  models.forEach(model => {
-    const option = document.createElement('option');
+  const models = [userConfigAiModel].concat(
+    aiModelList.filter((x) => x !== userConfigAiModel)
+  );
+  models.forEach((model) => {
+    const option = document.createElement("option");
     option.value = model;
     option.text = model;
     aiModelSelect.appendChild(option);
@@ -86,7 +88,7 @@ async function log(message) {
   });
 }
 
-async function registerInput(inputElementId) {
+async function initInputStorage(inputElementId) {
   const input = document.getElementById(inputElementId);
   const inputKey = `popupState.${inputElementId}`;
   input.value = (await getStorage(inputKey)) ?? "";
@@ -132,7 +134,7 @@ async function submitButtonClick(event) {
   await log(imageContentBase64);
   popupAbortController = new AbortController();
 
-  const aiModel = document.getElementById('aiModelSelect').value;
+  const aiModel = document.getElementById("aiModelSelect").value;
 
   await streamAnswer(
     popupAbortController,
@@ -164,7 +166,9 @@ function initConfigPopup() {
   const configButton = document.getElementById("configButton");
   const configPopup = document.getElementById("configPopup");
   const configForm = document.getElementById("configForm");
-  const configDefaultAIModelSelect = document.getElementById("configDefaultAIModelSelect");
+  const configDefaultAIModelSelect = document.getElementById(
+    "configDefaultAIModelSelect"
+  );
   const aiMaxAITokensInput = document.getElementById("aiMaxAITokens");
   const darkModeInput = document.getElementById("darkModeInput");
   const openAIKeyInput = document.getElementById("openAIKey");
@@ -183,7 +187,9 @@ function initConfigPopup() {
   }
 
   async function showConfigPopup() {
-    const configDefaultAIModelSelect = document.getElementById('configDefaultAIModelSelect');
+    const configDefaultAIModelSelect = document.getElementById(
+      "configDefaultAIModelSelect"
+    );
     await initAIModelSelect(configDefaultAIModelSelect);
 
     aiMaxAITokensInput.value = await getAiMaxAITokens();
