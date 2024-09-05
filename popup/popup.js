@@ -11,7 +11,7 @@ window.addEventListener("load", async () => {
 
   const aiPromptTextArea = await initInputStorage("aiPromptTextArea");
   const input = await initInputStorage("inputTextArea");
-  await initInputStorage("aiSuggestionTextArea");
+  await initInputStorage("aiOutputTextArea");
 
   const submitButton = document.getElementById("submitButton");
   submitButton.addEventListener("click", submitButtonClick);
@@ -71,9 +71,9 @@ function initPreviewIcon(input) {
 }
 
 async function cleanupAiSuggestion() {
-  const aiSuggestionTextArea = document.getElementById("aiSuggestionTextArea");
-  aiSuggestionTextArea.value = "";
-  await storeInputValue(aiSuggestionTextArea);
+  const aiOutputTextArea = document.getElementById("aiOutputTextArea");
+  aiOutputTextArea.value = "";
+  await storeInputValue(aiOutputTextArea);
 }
 
 async function log(message) {
@@ -115,7 +115,7 @@ async function submitButtonClick(event) {
   const openaiSecretKey = await getOpenAiSecretKey();
   const aiPromptTextArea = document.getElementById("aiPromptTextArea");
   const inputTextArea = document.getElementById("inputTextArea");
-  const aiSuggestionTextArea = document.getElementById("aiSuggestionTextArea");
+  const aiOutputTextArea = document.getElementById("aiOutputTextArea");
 
   await storeInputValue(aiPromptTextArea);
   await storeAIPromptToMRU(aiPromptTextArea.value);
@@ -144,19 +144,19 @@ async function submitButtonClick(event) {
     temperature,
     maxTokens,
     (partialResponse) => {
-      aiSuggestionTextArea.value += partialResponse;
+      aiOutputTextArea.value += partialResponse;
     },
     async (error) => {
-      aiSuggestionTextArea.value +=
+      aiOutputTextArea.value +=
         "/n/nError occurred while streaming the answer: " + error;
       await log(error);
       popupAbortController = null;
     },
     aiModel
   );
-  await storeInputValue(aiSuggestionTextArea);
-  aiSuggestionTextArea.focus();
-  aiSuggestionTextArea.select();
+  await storeInputValue(aiOutputTextArea);
+  aiOutputTextArea.focus();
+  aiOutputTextArea.select();
   popupAbortController = null;
 
   submitButton.textContent = "Submit";

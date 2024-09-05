@@ -10,19 +10,19 @@
   <body class="dark">
     <div class="container">
       <div class="horizontal">
-        <textarea class="top" id="aiPromptTextArea"></textarea> 
+        <textarea class="flex1" id="aiPromptTextArea"></textarea> 
         <button class="settings-button" id="configButton" title="Settings" tabindex="-1">
           <object type="image/svg+xml" data="settings.svg" class="icon" tabindex="-1">Your browser does not support SVG</object>
         </button>
       </div>
-      <div class="input-container half">
-        <textarea class="top" id="inputTextArea"></textarea> 
+      <div class="input-container">
+        <textarea class="flex1" id="inputTextArea"></textarea> 
         <input type="number" id="temperatureInput" tabindex="-1" min="0" max="10" title="Temperature (creativity). Range from 0 to 10">
         <img id="imagePreviewIcon" style="display:none;"/>
         <select id="aiModelSelect" tabindex="-1"> </select>
         <button class="submit-button" id="submitButton">Submit</button>  
       </div>
-      <textarea class="bottom" id="aiSuggestionTextArea" ></textarea> 
+      <textarea class="flex1" id="aiOutputTextArea" ></textarea> 
     </div>
 
     <div class="config-popup" id="configPopup">
