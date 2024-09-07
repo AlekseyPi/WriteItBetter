@@ -1,6 +1,11 @@
 let popupAbortController = null;
 
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 window.addEventListener("load", async () => {
+  await delay(10);
   const darkMode = await getDarkMode();
   if (darkMode) {
     document.body.classList.add("dark");
