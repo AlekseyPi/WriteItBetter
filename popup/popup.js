@@ -3,9 +3,10 @@ let popupAbortController = null;
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
+// ! aiOutputTextArea can support markdown   https://jsfiddle.net/f5v93n6b/
+// ! https://markdownlivepreview.com/
 window.addEventListener("load", async () => {
-  await delay(10);
+  await delay(50);
   const darkMode = await getDarkMode();
   if (darkMode) {
     document.body.classList.add("dark");
@@ -96,7 +97,11 @@ async function log(message) {
 async function initInputStorage(inputElementId) {
   const input = document.getElementById(inputElementId);
   const inputKey = `popupState.${inputElementId}`;
-  input.value = (await getStorage(inputKey)) ?? "";
+  try {
+    input.value = (await getStorage(inputKey)) ?? "";
+  } catch (e) {
+    input.value = "err";
+  }
   input.addEventListener("input", () => storeInputValue(input));
   return input;
 }
